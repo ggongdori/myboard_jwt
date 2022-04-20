@@ -5,11 +5,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+@Setter
 @Table(name = "post")
 @NoArgsConstructor
 @Getter
@@ -17,7 +22,7 @@ import java.time.LocalDateTime;
 public class Post extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long postId;
 
     @Column(nullable = false)
     private String image;
@@ -26,8 +31,8 @@ public class Post extends Timestamped {
     private String content;
 
 //    @JsonIgnoreProperties({"postList"})
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
     private User user;
 
     @Transient
@@ -35,6 +40,16 @@ public class Post extends Timestamped {
 
     @Transient
     private boolean liked;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 5)
+    private List<Like> likeList = new ArrayList<>();
+
+    public void addLike(Like like) {
+        this.likeList.add(like);
+        like.setPost(this);
+    }
+
 
     @Builder
     public Post(String image, String content, User user, long likeCount) {

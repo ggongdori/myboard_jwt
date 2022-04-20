@@ -1,5 +1,6 @@
 package com.example.myboard_jwt.config;
 
+import com.example.myboard_jwt.handler.CustomArgumentResolver;
 import com.example.myboard_jwt.jwt.JwtAccessDeniedHandler;
 import com.example.myboard_jwt.jwt.JwtAuthenticationEntryPoint;
 import com.example.myboard_jwt.jwt.JwtSecurityConfig;
@@ -15,6 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+
+import java.util.List;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -34,6 +38,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.corsFilter = corsFilter;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+    }
+
+    @Bean
+    public CustomArgumentResolver customArgumentResolver() { return new CustomArgumentResolver(); }
+
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(customArgumentResolver());
     }
 
     @Bean

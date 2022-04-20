@@ -23,6 +23,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+
     @Transactional
     public void save(PostSaveRequestDto requestDto, String username) {
         User result = userRepository.findByUsername(username).orElseThrow(
@@ -37,7 +38,7 @@ public class PostService {
     }
     @Transactional
     public Long update(Long id, PostUpdateRequestDto requestDto, String username) {
-        Post post = postRepository.findById(id)
+        Post post = postRepository.findByPostId(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
 
         post.update(requestDto.getImage(), requestDto.getContent());
@@ -47,7 +48,7 @@ public class PostService {
 
     @Transactional
     public void delete(Long id) {
-        Post post = postRepository.findById(id)
+        Post post = postRepository.findByPostId(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
 
         postRepository.delete(post);
@@ -55,7 +56,7 @@ public class PostService {
 
     @Transactional
     public PostResponseDto findById(Long id) {
-        Post entity = postRepository.findById(id)
+        Post entity = postRepository.findByPostId(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
         return new PostResponseDto(entity);
     }

@@ -52,15 +52,10 @@ public class AuthController {
         return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
 
+
     @PostMapping("/logout")
-    public void logout(HttpServletRequest request) {
-        SecurityContextHolder.clearContext();
-
+    public ResponseEntity<Success> logout(HttpServletRequest request) {
+        userService.logout(request);
+        return new ResponseEntity<>(new Success(true, "로그아웃 성공"), HttpStatus.OK);
     }
-
-//    @PostMapping("/logout")
-//    public ResponseEntity<Success> logout(HttpServletRequest request) {
-//        userService.logout(request);
-//        return new ResponseEntity<>(new Success(true, "로그아웃 성공"), HttpStatus.OK);
-//    }
 }

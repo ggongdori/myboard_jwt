@@ -8,6 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,9 +19,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-
-    private Long id;
-
 
     @NotBlank(message="아이디입력")
     @Pattern(regexp = "[a-zA-Z0-9]{3,20}", message = "아이디는 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성하기")
@@ -37,18 +36,19 @@ public class UserDto {
     @NotBlank(message = "이름을 입력해주세요.")
     private String nickname;
 
-    private Set<AuthorityDto> authorityDtoSet;
+    private List<String> roles;
+//    private Set<AuthorityDto> authorityDtoSet;
 
     public static UserDto from(User user) {
         if(user == null) return null;
 
         return UserDto.builder()
-                .id(user.getId())
                 .username(user.getUsername())
                 .nickname(user.getNickname())
-                .authorityDtoSet(user.getAuthorities().stream()
-                        .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
-                        .collect(Collectors.toSet()))
+//                .authorityDtoSet(user.getAuthorities().stream()
+//                        .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
+//                        .collect(Collectors.toSet()))
+                .roles(Collections.singletonList("ROLE_USER"))
                 .build();
     }
 

@@ -12,7 +12,7 @@ public class PostResponseDto {
     private String user;
 
     public PostResponseDto(Post entity) {
-        this.id = entity.getId();
+        this.id = entity.getPostId();
         this.image = entity.getImage();
         this.content = entity.getContent();
 //        this.user = entity.getUser().getUsername();

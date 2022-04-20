@@ -4,16 +4,12 @@ import com.example.myboard_jwt.dto.PostListResponseDto;
 import com.example.myboard_jwt.dto.PostResponseDto;
 import com.example.myboard_jwt.dto.PostSaveRequestDto;
 import com.example.myboard_jwt.dto.PostUpdateRequestDto;
-import com.example.myboard_jwt.entity.User;
 import com.example.myboard_jwt.exception.RestException;
 import com.example.myboard_jwt.handler.Success;
 import com.example.myboard_jwt.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -36,25 +32,25 @@ public class PostController {
 //    }
     @PostMapping("/posts")
     public ResponseEntity<Success> savePost(@RequestBody @Valid PostSaveRequestDto requestDto,
-                                            Authentication authentication, Errors errors) {
+                                            Principal principal, Errors errors) {
     if (errors.hasErrors()) {
         for (FieldError error : errors.getFieldErrors()) {
             throw new RestException(HttpStatus.BAD_REQUEST, error.getDefaultMessage());
         }
     }
-    postService.save(requestDto, authentication.getName());
+    postService.save(requestDto, principal.getName());
     return new ResponseEntity<>(new Success(true, "게시글 저장 성공"), HttpStatus.OK);
 }
 
-    @PutMapping("/posts/{id}")
+    @PatchMapping("/posts/{id}")
     public ResponseEntity<Success> update(@PathVariable Long id, @RequestBody PostUpdateRequestDto requestDto,
-                                          Authentication authentication, Errors errors) {
+                                          Principal principal, Errors errors) {
         if (errors.hasErrors()) {
             for (FieldError error : errors.getFieldErrors()) {
                 throw new RestException(HttpStatus.BAD_REQUEST, error.getDefaultMessage());
             }
         }
-        postService.update(id, requestDto, authentication.getName());
+        postService.update(id, requestDto, principal.getName());
         return new ResponseEntity<>(new Success(true, "게시글 수정 성공"), HttpStatus.OK);
     }
 
@@ -67,7 +63,7 @@ public class PostController {
 
 
     @GetMapping("/posts/{id}")
-    public PostResponseDto findById(@PathVariable Long id, Authentication authentication) {
+    public PostResponseDto findById(@PathVariable Long id, Principal principal) {
         return postService.findById(id);
     }
 

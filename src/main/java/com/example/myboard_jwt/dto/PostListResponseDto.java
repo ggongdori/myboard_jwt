@@ -13,7 +13,7 @@ public class PostListResponseDto {
     private LocalDateTime modifiedAt;
 
     public PostListResponseDto(Post entity) {
-        this.id = entity.getId();
+        this.id = entity.getPostId();
         this.image = entity.getImage();
 //        this.user = entity.getUser().getUsername();
         this.modifiedAt = entity.getModifiedAt();
