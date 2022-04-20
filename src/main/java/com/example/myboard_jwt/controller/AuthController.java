@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,8 +53,14 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Success> logout(HttpServletRequest request) {
-        userService.logout(request);
-        return new ResponseEntity<>(new Success(true, "로그아웃 성공"), HttpStatus.OK);
+    public void logout(HttpServletRequest request) {
+        SecurityContextHolder.clearContext();
+
     }
+
+//    @PostMapping("/logout")
+//    public ResponseEntity<Success> logout(HttpServletRequest request) {
+//        userService.logout(request);
+//        return new ResponseEntity<>(new Success(true, "로그아웃 성공"), HttpStatus.OK);
+//    }
 }

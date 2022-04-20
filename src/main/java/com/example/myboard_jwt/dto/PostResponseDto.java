@@ -15,6 +15,6 @@ public class PostResponseDto {
         this.id = entity.getId();
         this.image = entity.getImage();
         this.content = entity.getContent();
-        this.user = entity.getUser().getUsername();
+//        this.user = entity.getUser().getUsername();
     }
 }

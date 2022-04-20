@@ -15,7 +15,7 @@ public class PostListResponseDto {
     public PostListResponseDto(Post entity) {
         this.id = entity.getId();
         this.image = entity.getImage();
-        this.user = entity.getUser().getUsername();
+//        this.user = entity.getUser().getUsername();
         this.modifiedAt = entity.getModifiedAt();
     }
 }

@@ -11,20 +11,18 @@ import lombok.NoArgsConstructor;
 public class PostSaveRequestDto {
     private String image;
     private String content;
-    private User user;
+
 
     @Builder
-    public PostSaveRequestDto(String image, String content, User user) {
+    public PostSaveRequestDto(String image, String content) {
         this.image = image;
         this.content = content;
-        this.user = user;
     }
 
     public Post toEntity() {
         return Post.builder()
                 .image(image)
                 .content(content)
-                .user(user)
                 .build();
     }
 

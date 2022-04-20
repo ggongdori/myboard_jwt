@@ -36,6 +36,7 @@ public class UserService {
                 .build();
 
         User user = User.builder()
+                .id(userDto.getId())
                 .username(userDto.getUsername())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .nickname(userDto.getNickname())
@@ -56,8 +57,4 @@ public class UserService {
         return UserDto.from(SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername).orElse(null));
     }
 
-    public void logout(HttpServletRequest request) {
-        SecurityContextHolder.clearContext();
-
-    }
 }
