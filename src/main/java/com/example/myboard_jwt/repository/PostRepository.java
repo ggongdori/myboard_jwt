@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query("SELECT p FROM Post p ORDER BY p.id DESC")
+    @Query("SELECT p FROM Post p ORDER BY p.postId DESC")
     List<Post> findAllDesc();
     Optional<Post> findByPostId(Long postId);
     void deleteByPostId(Long postId);

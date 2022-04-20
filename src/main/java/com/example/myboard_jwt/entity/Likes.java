@@ -12,7 +12,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Like {
+//클래스이름 Like로 하면 h2db에 테이블 안 만들어짐
+public class Likes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,12 +27,12 @@ public class Like {
     private Post post;
 
     @Builder
-    public Like(User user, Post post) {
+    public Likes(User user, Post post) {
         this.user = user;
         this.post = post;
     }
 
-    public Like(Post post) {
+    public Likes(Post post) {
         this.user = post.getUser();
         this.post = post;
     }

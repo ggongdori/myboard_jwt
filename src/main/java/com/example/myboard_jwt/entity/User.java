@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -54,16 +53,16 @@ public class User implements UserDetails {
     private List<Post> postList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Like> likeList = new ArrayList<>();
+    private List<Likes> likesList = new ArrayList<>();
 
     public void addPost(Post post) {
         this.postList.add(post);
         post.setUser(this);
     }
 
-    public void addLike(Like like) {
-        this.likeList.add(like);
-        like.setUser(this);
+    public void addLike(Likes likes) {
+        this.likesList.add(likes);
+        likes.setUser(this);
     }
 
 //    @ManyToMany

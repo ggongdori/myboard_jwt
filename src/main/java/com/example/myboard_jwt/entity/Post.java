@@ -1,16 +1,13 @@
 package com.example.myboard_jwt.entity;
 
 import com.example.myboard_jwt.handler.Timestamped;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,11 +40,11 @@ public class Post extends Timestamped {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @BatchSize(size = 5)
-    private List<Like> likeList = new ArrayList<>();
+    private List<Likes> likesList = new ArrayList<>();
 
-    public void addLike(Like like) {
-        this.likeList.add(like);
-        like.setPost(this);
+    public void addLike(Likes likes) {
+        this.likesList.add(likes);
+        likes.setPost(this);
     }
 
 
