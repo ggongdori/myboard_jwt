@@ -49,6 +49,7 @@ public class UserService {
     }
 
     public void logout(HttpServletRequest request){
+        User.builder().activated(false);
         String token = tokenProvider.resolveToken();
         SecurityContextHolder.clearContext();
 
