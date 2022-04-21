@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class PostUpdateRequestDto {
-    private String image;
+    private String picture;
     private String content;
 
     @Builder
-    public PostUpdateRequestDto(String image, String content) {
-        this.image = image;
+    public PostUpdateRequestDto(String picture, String content) {
+        this.picture = picture;
         this.content = content;
     }
 }

@@ -5,13 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -27,11 +24,11 @@ public class UserDto {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "비밀번호를 입력해주세요.")
     @Size(min = 4, max = 20, message = "비밀번호는 최소 4자 이상 20자 이하")
-    private String password;
+    private String pw;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "비밀번호 확인을 입력해주세요.")
-    private String passwordCheck;
+    private String pwCheck;
 
     @NotBlank(message = "이름을 입력해주세요.")
     private String nickname;

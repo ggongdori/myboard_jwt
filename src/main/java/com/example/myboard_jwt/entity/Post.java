@@ -22,7 +22,7 @@ public class Post extends Timestamped {
     private Long postId;
 
     @Column(nullable = false)
-    private String image;
+    private String picture;
 
     @Column(nullable = false)
     private String content;
@@ -49,16 +49,16 @@ public class Post extends Timestamped {
 
 
     @Builder
-    public Post(String image, String content, User user, long likeCount) {
-        this.image = image;
+    public Post(String picture, String content, User user, long likeCount) {
+        this.picture = picture;
         this.content = content;
         this.user = user;
         this.likeCount = likeCount;
 
     }
 
-    public void update(String image, String content) {
-        this.image = image;
+    public void update(String picture, String content) {
+        this.picture = picture;
         this.content = content;
     }
 

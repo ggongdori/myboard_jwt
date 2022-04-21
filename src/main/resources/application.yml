@@ -1,17 +1,18 @@
 spring:
 
-  h2:
-    console:
-      enabled: true
+#  h2:
+#    console:
+#      enabled: true
 
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:mysql://myboard-db.cs4usf0xv8ru.ap-northeast-2.rds.amazonaws.com:3306/myboard
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: admin
+    password: DDolchu0410
+
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+#    database-platform: mysql
     hibernate:
       ddl-auto: create-drop
     properties:

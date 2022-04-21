@@ -31,7 +31,7 @@ public class PostService {
         );
         Post post = Post.builder()
                 .content(requestDto.getContent())
-                .image(requestDto.getImage())
+                .picture(requestDto.getPicture())
                 .build();
         postRepository.save(post);
 
@@ -41,7 +41,7 @@ public class PostService {
         Post post = postRepository.findByPostId(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
 
-        post.update(requestDto.getImage(), requestDto.getContent());
+        post.update(requestDto.getPicture(), requestDto.getContent());
 
         return id;
     }

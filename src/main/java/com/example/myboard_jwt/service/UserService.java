@@ -8,7 +8,6 @@ import com.example.myboard_jwt.entity.User;
 import com.example.myboard_jwt.exception.DuplicateMemberException;
 import com.example.myboard_jwt.jwt.TokenProvider;
 import com.example.myboard_jwt.repository.UserRepository;
-import com.example.myboard_jwt.util.SecurityUtil;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,7 +39,7 @@ public class UserService {
 
         User user = User.builder()
                 .username(userDto.getUsername())
-                .password(passwordEncoder.encode(userDto.getPassword()))
+                .password(passwordEncoder.encode(userDto.getPw()))
                 .nickname(userDto.getNickname())
                 .roles(Collections.singletonList("ROLE_USER"))
                 .activated(true)

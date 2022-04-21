@@ -1,18 +1,15 @@
 package com.example.myboard_jwt.controller;
 
-import com.example.myboard_jwt.dto.TokenDto;
 import com.example.myboard_jwt.dto.UserDto;
 import com.example.myboard_jwt.exception.RestException;
 import com.example.myboard_jwt.handler.Success;
 import com.example.myboard_jwt.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -54,9 +51,9 @@ public class UserController {
             }
         }
 
-        if (userDto.passwordCheck(userDto.getPassword(), userDto.getUsername())) {
+        if (userDto.passwordCheck(userDto.getPw(), userDto.getUsername())) {
             throw new RestException(HttpStatus.BAD_REQUEST, "비밀번호 내에 아이디를 포함할 수 없습니다.");
-        } else if (!userDto.isPasswordEqual(userDto.getPassword(), userDto.getPasswordCheck())) {
+        } else if (!userDto.isPasswordEqual(userDto.getPw(), userDto.getPwCheck())) {
             throw new RestException(HttpStatus.BAD_REQUEST, "비밀번호와 비밀번호확인이 일치하지 않습니다.");
         } else {
             userService.signup(userDto);
