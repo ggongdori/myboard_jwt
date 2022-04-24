@@ -33,20 +33,6 @@ public class User {
     private String nickname;
 
 
-//    @Column(name = "activated")
-//    private boolean activated;
-
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @Column
-//    private List<String> roles = new ArrayList<>();
-
-//    @Builder
-//    public User(String username, String password, String nickname) {
-//        this.username = username;
-//        this.password = password;
-//        this.nickname = nickname;
-//    }
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> postList = new ArrayList<>();
 
@@ -66,48 +52,5 @@ public class User {
     public static User createUserByRegister(UserDto.Register reg) {
         return new User(reg.getUsername(), reg.getPw(), reg.getNickname());
     }
-//    public void addPost(Post post) {
-//        post.setUser(this);
-//        this.postList.add(post);
-//    }
-//
-//    public void addLike(Likes likes) {
-//        this.likesList.add(likes);
-//        likes.setUser(this);
-//    }
-
-//    @ManyToMany
-//    @JoinTable(
-//            name = "user_authority",
-//            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
-//    private Set<Authority> authorities;
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return this.roles.stream()
-//                .map(SimpleGrantedAuthority::new)
-//                .collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return true;
-//    }
 
 }

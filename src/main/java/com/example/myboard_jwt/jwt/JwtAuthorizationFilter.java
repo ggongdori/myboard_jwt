@@ -53,8 +53,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     ((Claim) decodedJWT.getClaim(CLAIM_USERNAME)).asString(),
                     null
             );
-            //토큰을 강제로 생성 - 서비스를 통해 로그인을 할것이 아니기 때문에 비밀번호는 null이 가능하다.
-            //username이 null이 아니기 때문에 authentication 객체를 만들어도 된다. -> 인증이 된 부분
+
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
 

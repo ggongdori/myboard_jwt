@@ -31,16 +31,7 @@ public class PostDto {
         private Long likeCount;
         private boolean Like;
         private LocalDateTime lastModifiedAt;
-
-//        public PostRes(Post newPost, FileHandler fileHandler) {
-//            this.nickname = newPost.getUser().getNickname();
-//            this.content = newPost.getContent();
-//            this.lastModifiedAt = newPost.getModifiedAt();
-//            this.picture = fileHandler.getFileToByte();
-//            this.likeCount = newPost.getLikeCount();
-//            this.Like = isLike();
-
-        }
+    }
 
     @Data
     @NoArgsConstructor

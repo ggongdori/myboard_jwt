@@ -26,10 +26,6 @@ public class UserService {
             throw new DuplicateMemberException("이미 가입되어 있는 유저입니다.");
         }
 
-//        Authority authority = Authority.builder()
-//                .authorityName("ROLE_USER")
-//                .build();
-
         userDto.setPw(passwordEncoder.encode(userDto.getPw()));
         User user = User.createUserByRegister(userDto);
         userRepository.save(user);
@@ -48,23 +44,5 @@ public class UserService {
             throw new RestException(HttpStatus.BAD_REQUEST, "중복되는 아이디 또는 닉네임이 존재합니다");
         }
     }
-
-
-//    public void logout(HttpServletRequest request){
-//
-//        String token = jwtTokenUtils.resolveToken();
-//        SecurityContextHolder.clearContext();
-//
-//    }
-
-//    @Transactional(readOnly = true)
-//    public UserDto getUserWithAuthorities(String username) {
-//        return UserDto.from(userRepository.findOneWithAuthoritiesByUsername(username).orElse(null));
-//    }
-//
-//    @Transactional(readOnly = true)
-//    public UserDto getMyUserWithAuthorities() {
-//        return UserDto.from(SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername).orElse(null));
-//    }
 
 }
