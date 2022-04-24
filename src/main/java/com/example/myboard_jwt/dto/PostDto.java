@@ -1,7 +1,5 @@
 package com.example.myboard_jwt.dto;
 
-import com.example.myboard_jwt.entity.Post;
-import com.example.myboard_jwt.service.FileHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
