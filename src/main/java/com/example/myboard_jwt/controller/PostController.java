@@ -1,74 +1,82 @@
 package com.example.myboard_jwt.controller;
 
-import com.example.myboard_jwt.dto.PostListResponseDto;
-import com.example.myboard_jwt.dto.PostResponseDto;
-import com.example.myboard_jwt.dto.PostSaveRequestDto;
-import com.example.myboard_jwt.dto.PostUpdateRequestDto;
-import com.example.myboard_jwt.exception.RestException;
-import com.example.myboard_jwt.handler.Success;
+import com.example.myboard_jwt.dto.*;
+import com.example.myboard_jwt.exception.ResultMsg;
+import com.example.myboard_jwt.jwt.PrincipalDetails;
 import com.example.myboard_jwt.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api")
 public class PostController {
 
     private final PostService postService;
 
-//    @PostMapping("/posts")
-//    public Long save(@RequestBody PostSaveRequestDto requestDto, @AuthenticationPrincipal User user) {
-//        return postService.save(requestDto, user.getUsername());
-//    }
+    /**
+     * Board 추가 API
+     */
     @PostMapping("/posts")
-    public ResponseEntity<Success> savePost(@RequestBody @Valid PostSaveRequestDto requestDto,
-                                            Principal principal, Errors errors) {
-    if (errors.hasErrors()) {
-        for (FieldError error : errors.getFieldErrors()) {
-            throw new RestException(HttpStatus.BAD_REQUEST, error.getDefaultMessage());
-        }
-    }
-    postService.save(requestDto, principal.getName());
-    return new ResponseEntity<>(new Success(true, "게시글 저장 성공"), HttpStatus.OK);
-}
+    public PostResponseDto createBoard(
+            PostDto.FileReq fileReq,
+            @AuthenticationPrincipal PrincipalDetails principal) throws Exception {
 
-    @PatchMapping("/posts/{id}")
-    public ResponseEntity<Success> update(@PathVariable Long id, @RequestBody PostUpdateRequestDto requestDto,
-                                          Principal principal, Errors errors) {
-        if (errors.hasErrors()) {
-            for (FieldError error : errors.getFieldErrors()) {
-                throw new RestException(HttpStatus.BAD_REQUEST, error.getDefaultMessage());
-            }
-        }
-        postService.update(id, requestDto, principal.getName());
-        return new ResponseEntity<>(new Success(true, "게시글 수정 성공"), HttpStatus.OK);
+        return postService.createPost(fileReq, principal.getMemberSession().getId());
+//        return new PostResponseDto(newPost, );
     }
 
-    @DeleteMapping("/posts/{id}")
-    public ResponseEntity<Success> deletePost(@PathVariable Long id) {
-
-        postService.delete(id);
-        return new ResponseEntity<>(new Success(true, "게시글 삭제 성공"), HttpStatus.OK);
+    /**
+     * BoardList 전부 조회
+     * 인증없이 API도달 가능이므로 princiaplDetails null checking필요
+     */
+    @GetMapping(value = "/posts")
+    public PostDto.PostResList getBoardList(
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            Pageable pageable
+    ) {
+        Long memberId = principalDetails != null ? principalDetails.getMemberSession().getId() : null;
+        return postService.getBoardList(memberId, pageable);
     }
 
-
-    @GetMapping("/posts/{id}")
-    public PostResponseDto findById(@PathVariable Long id, Principal principal) {
-        return postService.findById(id);
+    /**
+     * Board 조회
+     * 인증없이 API도달 가능이므로 princiaplDetails null checking필요
+     */
+    @GetMapping(value = "/posts/{postId}")
+    public PostDto.PostRes getBoard(
+            @PathVariable("postId") Long postId,
+            @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+        Long userId = principalDetails != null ? principalDetails.getMemberSession().getId() : null;
+        return postService.getPosts(postId, userId);
     }
 
-    @GetMapping("/posts")
-    public List<PostListResponseDto> findAll() {
-        return postService.findAllDesc();
+    /**
+     * Board 수정
+     */
+    @PatchMapping("/posts/{postId}")
+    public PostResponseDto patchBoard(
+            @PathVariable("postId") Long boardId,
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            PostDto.FileReq fileReq) {
+        return postService.updatePost(boardId, principalDetails.getMemberSession().getId(), fileReq);
+
+    }
+
+    /**
+     * Board 삭제
+     */
+    @PostMapping("/posts/{postId}/delete")
+    public ResultMsg removePost(
+            @PathVariable("postId") Long boardId,
+            @AuthenticationPrincipal PrincipalDetails principalDetails
+    ) {
+
+        postService.removePost(boardId, principalDetails.getMemberSession().getId());
+        return new ResultMsg("success");
     }
 }

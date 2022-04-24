@@ -10,43 +10,50 @@ import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.List;
 
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class UserDto {
 
-    @NotBlank(message="아이디입력")
-    @Pattern(regexp = "[a-zA-Z0-9]{3,20}", message = "아이디는 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성하기")
-    private String username;
+    @Data
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class Register{
+        @NotBlank(message="아이디입력")
+        @Pattern(regexp = "[a-zA-Z0-9]{3,20}", message = "아이디는 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성하기")
+        private String username;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotBlank(message = "비밀번호를 입력해주세요.")
-    @Size(min = 4, max = 20, message = "비밀번호는 최소 4자 이상 20자 이하")
-    private String pw;
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+        @NotBlank(message = "비밀번호를 입력해주세요.")
+        @Size(min = 4, max = 20, message = "비밀번호는 최소 4자 이상 20자 이하")
+        private String pw;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotBlank(message = "비밀번호 확인을 입력해주세요.")
-    private String pwCheck;
+        @NotBlank(message = "이름을 입력해주세요.")
+        private String nickname;
+    }
 
-    @NotBlank(message = "이름을 입력해주세요.")
-    private String nickname;
 
-    private List<String> roles;
-//    private Set<AuthorityDto> authorityDtoSet;
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @AllArgsConstructor
+    public static class Login {
+        //추후 보안 강화 => " fsd" 이런 문자열 들어올 수 있음
+        @NotBlank
+        private String username;
+        @NotBlank
+        private String pw;
+    }
 
-    public static UserDto from(User user) {
-        if(user == null) return null;
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Session {
+        private Long id;
+        private String username;
+        private String password;
 
-        return UserDto.builder()
-                .username(user.getUsername())
-                .nickname(user.getNickname())
-//                .authorityDtoSet(user.getAuthorities().stream()
-//                        .map(authority -> AuthorityDto.builder().authorityName(authority.getAuthorityName()).build())
-//                        .collect(Collectors.toSet()))
-                .roles(Collections.singletonList("ROLE_USER"))
-                .build();
+        public Session(Login loginMember) {
+            this.username = loginMember.username;
+            this.password = loginMember.getPw();
+        }
     }
 
     public boolean passwordCheck(String password, String username) {

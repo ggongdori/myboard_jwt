@@ -1,34 +1,34 @@
-package com.example.myboard_jwt.service;
-
-import com.example.myboard_jwt.entity.User;
-import com.example.myboard_jwt.exception.RestException;
-import com.example.myboard_jwt.repository.UserRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.nio.file.attribute.UserPrincipal;
-import java.util.List;
-import java.util.stream.Collectors;
-
-@Component("userDetailsService")
-public class CustomUserDetailsService implements UserDetailsService {
-    private final UserRepository userRepository;
-
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public UserDetails loadUserByUsername(String username) {
-//        User user = userRepository.findByUsername(username);
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "해당 사용자를 찾을 수 없습니다."));
-    }
+//package com.example.myboard_jwt.service;
+//
+//import com.example.myboard_jwt.entity.User;
+//import com.example.myboard_jwt.exception.RestException;
+//import com.example.myboard_jwt.repository.UserRepository;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.authority.SimpleGrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.stereotype.Component;
+//import org.springframework.transaction.annotation.Transactional;
+//
+//import java.nio.file.attribute.UserPrincipal;
+//import java.util.List;
+//import java.util.stream.Collectors;
+//
+//@Component("userDetailsService")
+//public class CustomUserDetailsService implements UserDetailsService {
+//    private final UserRepository userRepository;
+//
+//    public CustomUserDetailsService(UserRepository userRepository) {
+//        this.userRepository = userRepository;
+//    }
+//
+//    public UserDetails loadUserByUsername(String username) {
+////        User user = userRepository.findByUsername(username);
+//        return userRepository.findByUsername(username)
+//                .orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "해당 사용자를 찾을 수 없습니다."));
+//    }
 //    @Override
 //    @Transactional
 //    public UserDetails loadUserByUsername(final String username) {
@@ -54,4 +54,4 @@ public class CustomUserDetailsService implements UserDetailsService {
 //                user.getPassword(),
 //               grantedAuthorities);
 //    }
-}
+//}

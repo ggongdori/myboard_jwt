@@ -1,12 +1,12 @@
-package com.example.myboard_jwt.dto;
-
-import lombok.*;
-
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class AuthorityDto {
-    private String authorityName;
-}
+//package com.example.myboard_jwt.dto;
+//
+//import lombok.*;
+//
+//@Getter
+//@Setter
+//@Builder
+//@AllArgsConstructor
+//@NoArgsConstructor
+//public class AuthorityDto {
+//    private String authorityName;
+//}

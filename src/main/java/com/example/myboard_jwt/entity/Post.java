@@ -1,72 +1,59 @@
 package com.example.myboard_jwt.entity;
 
 import com.example.myboard_jwt.handler.Timestamped;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Setter
-@Table(name = "post")
+
 @NoArgsConstructor
 @Getter
 @Entity
 public class Post extends Timestamped {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId;
+    @GeneratedValue
+    @Column(name = "post_id")
+    private Long id;
 
-    @Column(nullable = false)
-    private String picture;
-
-    @Column(nullable = false)
     private String content;
+    private String picture;
+    private Long likeCount;
 
-//    @JsonIgnoreProperties({"postList"})
-    @ManyToOne
-    @JoinColumn(name = "USER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Transient
-    private long likeCount;
-
-    @Transient
-    private boolean liked;
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    @BatchSize(size = 5)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Likes> likesList = new ArrayList<>();
 
-    public void addLike(Likes likes) {
-        this.likesList.add(likes);
-        likes.setPost(this);
-    }
-
-
-    @Builder
-    public Post(String picture, String content, User user, long likeCount) {
-        this.picture = picture;
+    private Post(String content, String picture, User user) {
         this.content = content;
+        this.picture = picture;
+        this.likeCount = 0L;
         this.user = user;
-        this.likeCount = likeCount;
-
     }
 
-    public void update(String picture, String content) {
-        this.picture = picture;
+
+    public static Post createPost(String content, String picture, User user) {
+        Post post = new Post(content, picture, user);
+        post.user.getPostList().add(post);
+        return post;
+    }
+
+
+    public void update(String content, String filePath) {
         this.content = content;
+        this.picture = filePath;
     }
 
-    public void updateLike(long likeCount) {
-        this.likeCount = likeCount;
+    public void addLike() {
+        this.likeCount += 1;
     }
 
-    public void updateLiked(boolean liked) {
-        this.liked = liked;
+    public void cancelLike() {
+        this.likeCount -= 1;
     }
 }

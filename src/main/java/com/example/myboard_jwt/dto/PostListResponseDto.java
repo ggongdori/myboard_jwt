@@ -1,21 +1,19 @@
 package com.example.myboard_jwt.dto;
 
 import com.example.myboard_jwt.entity.Post;
+import com.example.myboard_jwt.service.FileHandler;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Slice;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PostListResponseDto {
-    private Long id;
-    private String picture;
-    private String user;
-    private LocalDateTime modifiedAt;
-
-    public PostListResponseDto(Post entity) {
-        this.id = entity.getPostId();
-        this.picture = entity.getPicture();
-//        this.user = entity.getUser().getUsername();
-        this.modifiedAt = entity.getModifiedAt();
-    }
+    private Slice<PostListResponseDto> posts;
 }

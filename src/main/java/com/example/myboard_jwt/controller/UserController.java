@@ -2,6 +2,7 @@ package com.example.myboard_jwt.controller;
 
 import com.example.myboard_jwt.dto.UserDto;
 import com.example.myboard_jwt.exception.RestException;
+import com.example.myboard_jwt.exception.ResultMsg;
 import com.example.myboard_jwt.handler.Success;
 import com.example.myboard_jwt.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,16 @@ public class UserController {
         response.sendRedirect("/api/user");
     }
 
-//    @PostMapping("/register")
+    @PostMapping("/register")
+    public ResultMsg register(@RequestBody @Valid UserDto.Register registerDto) {
+        userService.register(registerDto);
+        //MessageSoruce refactoring
+
+        return new ResultMsg("success");
+    }
+
+
+    //    @PostMapping("/register")
 //    public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
 //        if (userDto.passwordCheck(userDto.getPassword(), userDto.getUsername())) {
 //            throw new IllegalArgumentException("비밀번호 내에 아이디 포함 불가");
@@ -43,23 +53,7 @@ public class UserController {
 //            return ResponseEntity.ok(userService.signup(userDto));
 //        }
 //    }
-    @PostMapping("/register")
-    public ResponseEntity<Success> registerUser(@Valid @RequestBody UserDto userDto, Errors errors) {
-        if (errors.hasErrors()) {
-            for (FieldError error : errors.getFieldErrors()) {
-                throw new RestException(HttpStatus.BAD_REQUEST, error.getDefaultMessage());
-            }
-        }
 
-        if (userDto.passwordCheck(userDto.getPw(), userDto.getUsername())) {
-            throw new RestException(HttpStatus.BAD_REQUEST, "비밀번호 내에 아이디를 포함할 수 없습니다.");
-        } else if (!userDto.isPasswordEqual(userDto.getPw(), userDto.getPwCheck())) {
-            throw new RestException(HttpStatus.BAD_REQUEST, "비밀번호와 비밀번호확인이 일치하지 않습니다.");
-        } else {
-            userService.signup(userDto);
-            return new ResponseEntity<>(new Success(true, "회원가입 성공"), HttpStatus.OK);
-        }
-    }
 
 //    @GetMapping("/user")
 //    @PreAuthorize("hasAnyRole('USER','ADMIN')")

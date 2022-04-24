@@ -1,33 +1,53 @@
 spring:
+  messages.basename: messages, error
 
-#  h2:
-#    console:
-#      enabled: true
+  h2:
+    console:
+      enabled: true
 
   datasource:
-    url: jdbc:mysql://myboard-db.cs4usf0xv8ru.ap-northeast-2.rds.amazonaws.com:3306/myboard
+    url: jdbc:mysql://myboard-database2.cs4usf0xv8ru.ap-northeast-2.rds.amazonaws.com:3306/myboard_db
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: admin
-    password: DDolchu0410
+    password: DDolchu0410!
+
+  #  datasource:
+#    url: jdbc:mysql://myboard-db.cs4usf0xv8ru.ap-northeast-2.rds.amazonaws.com:3306/myboard
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: admin
+#    password: DDolchu0410
 
 
   jpa:
 #    database-platform: mysql
+#    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
-        show_sql: false
-    defer-datasource-initialization: true
+        show_sql: true
+#    defer-datasource-initialization: true
 
-jwt:
-  header: Authorization
-  #HS512 ????? ??? ??? ??? 512bit, ? 64byte ??? secret key? ???? ??.
-  #echo 'silvernine-tech-spring-boot-jwt-tutorial-secret-silvernine-tech-spring-boot-jwt-tutorial-secret'|base64
-  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
-  token-validity-in-seconds: 86400
+  servlet.multipart:
+    maxFileSize: 10MB
+    maxRequestSize: 20MB
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+#jwt:
+#  header: Authorization
+#  #HS512 ????? ??? ??? ??? 512bit, ? 64byte ??? secret key? ???? ??.
+#  #echo 'silvernine-tech-spring-boot-jwt-tutorial-secret-silvernine-tech-spring-boot-jwt-tutorial-secret'|base64
+#  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+#  token-validity-in-seconds: 86400
 
 logging:
+  exception-conversion-word: '%wEx'
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(${LOG_LEVEL_PATTERN:-%5p}){green} %clr([%22thread]){magenta} %clr(%-40.40logger{39}){cyan} %clr(: %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}){faint}'
   level:
-    me.silvernine: DEBUG
+    #    root: debug
+    web: debug
