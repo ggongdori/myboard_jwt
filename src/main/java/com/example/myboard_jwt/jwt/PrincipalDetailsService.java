@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import static com.example.myboard_jwt.exception.ErrorConstant.LOGIN_ERROR;
 
+
+//시큐리티 설정에서 loginProcessingUrl("/login")
+//login요청이 오면 자동으로 UserDetailsService 타입으로 IoC 되어있는 loadUserByUsername 함수가 실행
 @Service
 @Slf4j
 @RequiredArgsConstructor
