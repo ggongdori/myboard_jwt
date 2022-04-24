@@ -22,6 +22,9 @@ import java.io.IOException;
 import static com.example.myboard_jwt.exception.ErrorConstant.LOGIN_ERROR;
 import static com.example.myboard_jwt.jwt.JwtTokenUtils.*;
 
+//스프링 시큐리티에 UsernamePasswordAuthenticationFilter 존재
+//로그인 요청해서 username, password 전송하면 (POST method)
+//동작
 @Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 

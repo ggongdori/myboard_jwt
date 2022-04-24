@@ -22,6 +22,9 @@ import java.io.IOException;
 
 import static com.example.myboard_jwt.jwt.JwtTokenUtils.*;
 
+//시큐리티가 필터를 가지고 있는데 그 필터 중  BasicAuthenticationFilter가 있음
+// 권한이나 인증이 필요한 특정 주소를 요청했을 때 무조건 타게 되어있음
+// 만약에 권한이나 인증이 필요없으면 안 탐.
 @Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private final UserRepository userRepository;
@@ -33,7 +36,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         this.userRepository = userRepository;
     }
 
-    //인증이나 권한이 필요하면 doFilterInternal 탄다.
+    //인증이나 권한이 필요한 주소요청이 있으면 doFilterInternal 탄다.
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.info("인증 시도중...");
