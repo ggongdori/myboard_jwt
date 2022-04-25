@@ -32,6 +32,10 @@ public class User {
 //    @Column(name = "nickname", length = 50, unique = true)
     private String nickname;
 
+    //카카오 로그인 사용자
+    @Column(unique = true)
+    private Long kakaoId;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> postList = new ArrayList<>();

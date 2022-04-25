@@ -1,10 +1,9 @@
 package com.example.myboard_jwt.dto;
 
 import lombok.AllArgsConstructor;
-import org.hibernate.internal.build.AllowPrintStacktrace;
 
 @AllArgsConstructor
-public class kakaoUserInfoDto {
+public class KakaoUserInfoDto {
     private Long id;
     private String nickname;
     private String email;
