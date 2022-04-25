@@ -3,7 +3,12 @@ package com.example.myboard_jwt.controller;
 import com.example.myboard_jwt.dto.UserDto;
 import com.example.myboard_jwt.exception.ResultMsg;
 import com.example.myboard_jwt.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -42,24 +47,67 @@ public class UserController {
     }
 
     @GetMapping("/login/kakao/callback")
-    public ResultMsg kakaoLogin(@RequestParam String code) {
+    public @ResponseBody String kakaoLogin(String code) throws JsonProcessingException {
 
         //POST 방식으로 key: value 데이터를 요청(카카오쪽으로)
+        //Http header 오브젝트 생성
         RestTemplate rt = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
+        HttpHeaders  headers = new HttpHeaders();
 
         //내가 전달받을 데이터가 key: value 형식이라는 것을 알려줌
         headers.add("Content-type", "application/x-www-form-urlencoded; charset = utf - 8");
 
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        //원래는 변수화 시켜서 사용
-        params.add("grant_type", "authorization_code");
-        params.add("client_id", "6c59b4dda916bc7b5a99d658afc58a07");
-        params.add("redirect_uri", "http://localhost:8080/api/login/kakao/callback");
-        params.add("code", "code");
 
-        userService.kakaoLogin(code);
-        return new ResultMsg("카카오 로그인 성공");
+        //http body object created
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        //원래는 변수화 시켜서 사용
+        body.add("grant_type", "authorization_code");
+        body.add("client_id", "6c59b4dda916bc7b5a99d658afc58a07");
+        body.add("redirect_uri", "http://localhost:8080/api/login/kakao/callback");
+        body.add("code", code);
+        
+        //httpheader와 httpbody를 하나의 오브젝트에 담기
+        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(body, headers);
+        
+        //http 요청하기-Post방식으로-그리고 response 변수와 응답받음
+        ResponseEntity<String> response = rt.exchange(
+                "https://kauth.kakao.com/oauth/token",
+                HttpMethod.POST,
+                kakaoTokenRequest,
+                String.class
+        );
+        String responseBody = response.getBody();
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(responseBody);
+        String accessToken = jsonNode.get("access_token").asText();
+        System.out.println("----------- " +  accessToken + " -----------");
+//        return accessToken;
+//        userService.kakaoLogin(code);
+        // 2. 토큰으로 카카오 API 호출
+        // HTTP Header 생성
+        headers.add("Authorization", "Bearer " + accessToken);
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        // HTTP 요청 보내기
+        HttpEntity<MultiValueMap<String, String>> kakaoUserInfoRequest = new HttpEntity<>(headers);
+        response = rt.exchange(
+                "https://kapi.kakao.com/v2/user/me",
+                HttpMethod.POST,
+                kakaoUserInfoRequest,
+                String.class
+        );
+
+        responseBody = response.getBody();
+        jsonNode = objectMapper.readTree(responseBody);
+        Long id = jsonNode.get("id").asLong();
+        String nickname = jsonNode.get("properties")
+                .get("nickname").asText();
+        String email = jsonNode.get("kakao_account")
+                .get("email").asText();
+
+//        System.out.println("카카오 사용자 정보: " + id + ", " + nickname);
+
+        return "카카오 사용자 정보: "+ id + ", " + nickname + ", " + email;
     }
 
 
