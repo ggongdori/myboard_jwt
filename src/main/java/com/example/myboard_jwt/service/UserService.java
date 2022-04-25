@@ -37,6 +37,14 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
+    public void kakaoRegister(User user) {
+        String rawPw = user.getPw();
+        String encPw = passwordEncoder.encode(rawPw);
+        user.setPw(encPw);
+        userRepository.save(user);
+    }
+
     private void isUsernameInPw(UserDto.Register userDto) {
         if (userDto.getPw().contains(userDto.getPw())) {
             throw new RestException(HttpStatus.BAD_REQUEST, "비밀번호 안에 아이디 포함 불가");
@@ -49,6 +57,15 @@ public class UserService {
         if (isUsername || isNickname){
             throw new RestException(HttpStatus.BAD_REQUEST, "중복되는 아이디 또는 닉네임이 존재합니다");
         }
+    }
+
+    public User findUser(String username) {
+        User user = userRepository.findByUsername(username).orElseGet(
+                ()-> {
+                    return new User();
+                }
+        );
+        return user;
     }
 
 

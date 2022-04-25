@@ -9,6 +9,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 
 public class UserDto {
@@ -28,6 +29,7 @@ public class UserDto {
 
         @NotBlank(message = "이름을 입력해주세요.")
         private String nickname;
+
     }
 
 

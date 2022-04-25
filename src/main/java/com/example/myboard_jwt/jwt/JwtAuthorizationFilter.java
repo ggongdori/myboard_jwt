@@ -44,9 +44,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             String jwtHeader = request.getHeader(TOKEN_HEADER_NAME);
 
             //헤더가 있는지 확인
-            if (jwtHeader == null || !jwtHeader.startsWith(TOKEN_NAME_WITH_SPACE)) {
-                throw new CustomAuthenticationException("no header request", ErrorConstant.TOKEN_ERROR);
-            }
+//            if (jwtHeader == null || !jwtHeader.startsWith(TOKEN_NAME_WITH_SPACE)) {
+//                throw new CustomAuthenticationException("no header request", ErrorConstant.TOKEN_ERROR);
+//            }
             String jwtToken = getTokenFromHeader(request);
 
             DecodedJWT decodedJWT = verifyToken(jwtToken);

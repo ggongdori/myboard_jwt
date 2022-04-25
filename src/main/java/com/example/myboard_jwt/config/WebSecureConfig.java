@@ -1,8 +1,10 @@
 package com.example.myboard_jwt.config;
 
+import com.example.myboard_jwt.config.oauth.PrincipalOauth2UserService;
 import com.example.myboard_jwt.jwt.*;
 import com.example.myboard_jwt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -25,6 +27,7 @@ public class WebSecureConfig extends WebSecurityConfigurerAdapter {
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
     private final AuthenticationFailureHandlerImpl authenticationFailureHandler;
 
+    private PrincipalOauth2UserService principalOauth2UserService;
     //이걸로 안막으면 인증이 필요없는 부분도 필터를 탐 (forbidden으로 막히지는 않음)
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -52,7 +55,11 @@ public class WebSecureConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/posts").permitAll()
                 .antMatchers("/api/**").authenticated()
 //                .antMatchers(HttpMethod.GET, "/api/**")
-                .anyRequest().permitAll();
+                .anyRequest().permitAll()
+                .and()
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
 
 //                .antMatchers("/api/v1/user/**")
 //                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")

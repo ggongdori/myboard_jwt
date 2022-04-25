@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Setter
 @Entity
 @Getter
 @NoArgsConstructor
@@ -32,10 +32,7 @@ public class User {
 //    @Column(name = "nickname", length = 50, unique = true)
     private String nickname;
 
-    //카카오 로그인 사용자
-    @Column(unique = true)
     private Long kakaoId;
-
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> postList = new ArrayList<>();
@@ -43,6 +40,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Likes> likesList = new ArrayList<>();
 
+    @Builder
     private User(String username, String pw, String nickname) {
         this.username = username;
         this.pw = pw;
