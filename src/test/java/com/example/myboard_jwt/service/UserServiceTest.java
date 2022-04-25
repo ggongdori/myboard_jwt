@@ -5,6 +5,9 @@ import com.example.myboard_jwt.exception.RestException;
 import com.example.myboard_jwt.repository.UserRepository;
 import org.junit.After;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -13,6 +16,12 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
+단위테스트 (Service와 관련된 애들만 메모리에 띄워야 됨
+postrepository => 가짜 객체를 만들면 됨
+ */
+
+@ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
     @Autowired
