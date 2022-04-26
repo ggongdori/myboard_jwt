@@ -18,6 +18,7 @@ public class WebConfigure {
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.addExposedHeader("*");
+//        config.addAllowedOriginPattern("*");
 
         source.registerCorsConfiguration("/api/**", config);
         return new CorsFilter(source);

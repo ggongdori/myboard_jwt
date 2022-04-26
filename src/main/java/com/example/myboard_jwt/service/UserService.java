@@ -37,13 +37,13 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Transactional
-    public void kakaoRegister(User user) {
-        String rawPw = user.getPw();
-        String encPw = passwordEncoder.encode(rawPw);
-        user.setPw(encPw);
-        userRepository.save(user);
-    }
+//    @Transactional
+//    public void kakaoRegister(User user) {
+//        String rawPw = user.getPw();
+//        String encPw = passwordEncoder.encode(rawPw);
+//        user.setPw(encPw);
+//        userRepository.save(user);
+//    }
 
     private void isUsernameInPw(UserDto.Register userDto) {
         if (userDto.getPw().contains(userDto.getPw())) {
@@ -59,14 +59,14 @@ public class UserService {
         }
     }
 
-    public User findUser(String username) {
-        User user = userRepository.findByUsername(username).orElseGet(
-                ()-> {
-                    return new User();
-                }
-        );
-        return user;
-    }
+//    public User findUser(String username) {
+//        User user = userRepository.findByUsername(username).orElseGet(
+//                ()-> {
+//                    return new User();
+//                }
+//        );
+//        return user;
+//    }
 
 
 // 1. "인가 코드"로 "액세스 토큰" 요청

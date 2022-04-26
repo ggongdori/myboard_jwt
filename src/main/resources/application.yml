@@ -17,16 +17,14 @@ spring:
 #    username: admin
 #    password: DDolchu0410
 
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 510126896636-njlsscvepmc3bt5tv7prta6i4o1361ei.apps.googleusercontent.com
-            client-secret: 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
-            scope:
-              -email
-              -profile
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client-id: 510126896636-njlsscvepmc3bt5tv7prta6i4o1361ei.apps.googleusercontent.com
+#            client-secret: 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
+#            scope: https://www.googleapis.com/auth/cloud-platform
 
   jpa:
 #    database-platform: mysql

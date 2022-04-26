@@ -32,7 +32,11 @@ public class User {
 //    @Column(name = "nickname", length = 50, unique = true)
     private String nickname;
 
-    private Long kakaoId;
+//    private String role;
+
+//    private String provider;
+
+//    private String kakaoId;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> postList = new ArrayList<>();
@@ -40,8 +44,16 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Likes> likesList = new ArrayList<>();
 
-    @Builder
-    private User(String username, String pw, String nickname) {
+//    @Builder
+//    public User(String username,String nickname, String provider, String kakaoId) {
+//        this.username = username;
+//        this.nickname = nickname;
+////        this.provider = provider;
+////        this.kakaoId = kakaoId;
+//    }
+
+
+    public User(String username, String pw, String nickname) {
         this.username = username;
         this.pw = pw;
         this.nickname = nickname;
