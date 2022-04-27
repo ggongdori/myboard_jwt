@@ -1,4 +1,4 @@
-//package com.example.myboard_jwt.entity;
+//package com.example.myboard_jwt.config.oauth;
 //
 //import lombok.Data;
 //

@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Setter
 @Getter
-public class PrincipalDetails implements UserDetails {
+public class PrincipalDetails implements UserDetails, OAuth2User {
     private UserDto.Session memberSession;
     private Map<String, Object> attributes;
     private User user;
@@ -30,12 +30,13 @@ public class PrincipalDetails implements UserDetails {
     public PrincipalDetails(Long id, String username, String password) {
         this.memberSession = new UserDto.Session(id, username, password);
     }
-//    //OAuth 로그인
-//    //Overloading
-//    public PrincipalDetails(User user, Map<String, Object> attributes) {
-//        this.user = user;
-//        this.attributes = attributes;
-//    }
+
+    //    //OAuth 로그인
+    //Overloading
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -81,5 +82,8 @@ public class PrincipalDetails implements UserDetails {
         return true;
     }
 
-
+    @Override
+    public String getName() {
+        return null;
+    }
 }

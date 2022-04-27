@@ -1,33 +1,27 @@
 package com.example.myboard_jwt.controller;
-
-import com.example.myboard_jwt.dto.KakaoUserInfoDto;
+//
+//import com.example.myboard_jwt.config.oauth.KakaoUserInfoDto;
+//import com.example.myboard_jwt.config.oauth.OAuthService;
+import com.example.myboard_jwt.config.oauth.KakaoUserInfoDto;
+import com.example.myboard_jwt.config.oauth.OAuthService;
 import com.example.myboard_jwt.dto.UserDto;
 import com.example.myboard_jwt.exception.ResultMsg;
-import com.example.myboard_jwt.entity.User;
+import com.example.myboard_jwt.jwt.JwtTokenUtils;
+import com.example.myboard_jwt.jwt.PrincipalDetailsService;
 import com.example.myboard_jwt.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class UserController {
 
 
@@ -35,7 +29,10 @@ public class UserController {
 
 
     private final UserService userService;
+    private OAuthService oAuthService;
     private AuthenticationManager authenticationManager;
+    private PrincipalDetailsService principalDetailsService;
+    private JwtTokenUtils jwtTokenUtils;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -51,12 +48,21 @@ public class UserController {
         response.sendRedirect("/api/user");
     }
 
-    @PostMapping("/register")
+    @PostMapping("/api/register")
     public ResultMsg register(@RequestBody @Valid UserDto.Register registerDto) {
         userService.register(registerDto);
         //MessageSoruce refactoring
 
         return new ResultMsg("회원가입이 완료되었습니다");
+    }
+
+    @GetMapping("/login/oauth2/code/kakao")
+    public @ResponseBody String kakaoCode(String code) throws JsonProcessingException { //@responsebody = data를 리턴해주는 컨트롤러 함수
+        KakaoUserInfoDto kakaoUserInfoDto = oAuthService.kakaoLogin(code);
+
+
+
+        return "로그인 성공";
     }
 
 //    public void kakaoLogin(String code) throws JsonProcessingException {

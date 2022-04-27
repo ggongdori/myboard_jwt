@@ -9,7 +9,9 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.myboard_jwt.exception.CustomAuthenticationException;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -18,6 +20,8 @@ import static com.example.myboard_jwt.exception.ErrorConstant.TOKEN_ERROR;
 
 
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public final class JwtTokenUtils {
 
     public static final int SEC = 1000;

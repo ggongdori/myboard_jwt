@@ -1,5 +1,6 @@
 package com.example.myboard_jwt.dto;
 
+import com.example.myboard_jwt.entity.Provider;
 import com.example.myboard_jwt.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -29,6 +30,8 @@ public class UserDto {
 
         @NotBlank(message = "이름을 입력해주세요.")
         private String nickname;
+
+        private Provider provider;
 
     }
 
