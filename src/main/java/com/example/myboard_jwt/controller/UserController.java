@@ -50,6 +50,8 @@ public class UserController {
         return new ResultMsg("회원가입이 완료되었습니다");
     }
 
+
+
 //    public void kakaoLogin(String code) throws JsonProcessingException {
 //        String accessToken = getAccessToken(code);
 //        KakaoUserInfoDto kakaoUserInfoDto = getKakaoUserInfo(accessToken);
