@@ -43,7 +43,6 @@ public class UserController {
         response.sendRedirect("/api/user");
     }
 
-
     @PostMapping("/api/register")
     public ResultMsg register(@RequestBody @Valid UserDto.Register registerDto) {
         userService.register(registerDto);
