@@ -51,7 +51,6 @@ public class UserController {
     }
 
 
-
 //    public void kakaoLogin(String code) throws JsonProcessingException {
 //        String accessToken = getAccessToken(code);
 //        KakaoUserInfoDto kakaoUserInfoDto = getKakaoUserInfo(accessToken);
