@@ -47,7 +47,6 @@ public class UserController {
     public ResultMsg register(@RequestBody @Valid UserDto.Register registerDto) {
         userService.register(registerDto);
         //MessageSoruce refactoring
-
         return new ResultMsg("회원가입이 완료되었습니다");
     }
 
