@@ -26,8 +26,8 @@ public class Post extends Timestamped {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-//    private List<Likes> likesList = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Likes> likesList = new ArrayList<>();
 
     private Post(String content, String picture, User user) {
         this.content = content;
@@ -35,7 +35,6 @@ public class Post extends Timestamped {
         this.likeCount = 0L;
         this.user = user;
     }
-
 
     public static Post createPost(String content, String picture, User user) {
         Post post = new Post(content, picture, user);

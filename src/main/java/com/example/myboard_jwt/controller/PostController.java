@@ -21,7 +21,7 @@ public class PostController {
     /**
      * Board 추가 API
      */
-    @PostMapping("/posts")
+    @PostMapping("/board")
     public PostResponseDto createBoard(
             PostDto.FileReq fileReq,
             @AuthenticationPrincipal PrincipalDetails principal) throws Exception {
@@ -34,7 +34,7 @@ public class PostController {
      * BoardList 전부 조회
      * 인증없이 API도달 가능이므로 princiaplDetails null checking필요
      */
-    @GetMapping(value = "/posts")
+    @GetMapping(value = "/board")
     public PostDto.PostResList getBoardList(
             @AuthenticationPrincipal PrincipalDetails principalDetails,
             Pageable pageable
@@ -47,9 +47,9 @@ public class PostController {
      * Board 조회
      * 인증없이 API도달 가능이므로 princiaplDetails null checking필요
      */
-    @GetMapping(value = "/posts/{postId}")
+    @GetMapping(value = "/board/{boardId}")
     public PostDto.PostRes getBoard(
-            @PathVariable("postId") Long postId,
+            @PathVariable("boardId") Long postId,
             @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
         Long userId = principalDetails != null ? principalDetails.getMemberSession().getId() : null;
         return postService.getPosts(postId, userId);
@@ -58,9 +58,9 @@ public class PostController {
     /**
      * Board 수정
      */
-    @PatchMapping("/posts/{postId}")
+    @PatchMapping("/board/{boardId}")
     public PostResponseDto patchBoard(
-            @PathVariable("postId") Long boardId,
+            @PathVariable("boardId") Long boardId,
             @AuthenticationPrincipal PrincipalDetails principalDetails,
             PostDto.FileReq fileReq) {
         return postService.updatePost(boardId, principalDetails.getMemberSession().getId(), fileReq);
@@ -70,9 +70,9 @@ public class PostController {
     /**
      * Board 삭제
      */
-    @PostMapping("/posts/{postId}/delete")
+    @PostMapping("/board/{boardId}/delete")
     public ResultMsg removePost(
-            @PathVariable("postId") Long boardId,
+            @PathVariable("boardId") Long boardId,
             @AuthenticationPrincipal PrincipalDetails principalDetails
     ) {
 

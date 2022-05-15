@@ -21,7 +21,7 @@ public class PostResponseDto {
     private Long likeCount;
     private boolean Like;
     private LocalDateTime lastModifiedAt;
-    private FileHandler fileHandler;
+//    private FileHandler fileHandler;
 
 
 

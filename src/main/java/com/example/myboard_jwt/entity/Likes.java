@@ -1,5 +1,5 @@
 package com.example.myboard_jwt.entity;
-//
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

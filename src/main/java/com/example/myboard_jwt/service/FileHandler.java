@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.myboard_jwt.exception.ErrorConstant.FILE_ERROR;
 
@@ -21,20 +23,15 @@ public class FileHandler {
     public String getFilePath(MultipartFile multipartFile) {
         // 전달되어 온 파일이 존재하지 않을 경우
         if (multipartFile == null) return null;
-
         // 파일 디렉토리 주소 생성
         String path = getFileDirectoryPath();
         File file = new File(path);
-
         // 파일 디렉토리 생성
         makeDirectory(file);
-
         // 파일의 확장자 추출
         String originalFileExtension = getFileExtension(multipartFile);
-
         // 파일명 중복 피하고자 나노초까지 얻어와 지정
         String new_file_name = System.nanoTime() + originalFileExtension;
-
         return path + File.separator + new_file_name;
     }
 
@@ -46,6 +43,18 @@ public class FileHandler {
         }
         saveMultipartFile(multipartFile, filePath);
 //        logger.info("파일 하드에 저장 완료");
+    }
+
+    public void saveFiles(List<MultipartFile> multipartFiles, List<String> filePaths) {
+//        List<MultipartFile> storeFileResult = new ArrayList<>();
+        for (MultipartFile multipartFile : multipartFiles) {
+            for (String filePath : filePaths) {
+                if (!multipartFile.isEmpty() || filePath != null) {
+                   saveMultipartFile(multipartFile, filePath);
+                }
+            }
+
+        }
     }
 
 

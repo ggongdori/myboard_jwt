@@ -5,17 +5,16 @@ spring:
     console:
       enabled: true
 
-  datasource:
-    url: jdbc:mysql://myboard-database2.cs4usf0xv8ru.ap-northeast-2.rds.amazonaws.com:3306/myboard_db
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: admin
-    password: DDolchu0410!
-
-  #  datasource:
-#    url: jdbc:mysql://myboard-db.cs4usf0xv8ru.ap-northeast-2.rds.amazonaws.com:3306/myboard
+#  datasource:
+#    url: jdbc:mysql://myboard-database2.cs4usf0xv8ru.ap-northeast-2.rds.amazonaws.com:3306/myboard_db
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    username: admin
-#    password: DDolchu0410
+#    password: DDolchu0410!
+
+    datasource:
+      url: jdbc:h2:mem:testdb
+      username: sa
+      password:
 
 security:
   oauth2:
@@ -81,7 +80,7 @@ security:
           physical-strategy: org.springframework.boot.orm.jpa.hibernate.PhysicalNamingStrategyStandardImpl
         format_sql: true
         show_sql: true
-#    defer-datasource-initialization: true
+    defer-datasource-initialization: true
 
   servlet.multipart:
     maxFileSize: 10MB

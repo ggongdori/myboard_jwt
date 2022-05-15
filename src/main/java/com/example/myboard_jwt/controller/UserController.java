@@ -1,9 +1,5 @@
 package com.example.myboard_jwt.controller;
-//
-//import com.example.myboard_jwt.config.oauth.KakaoUserInfoDto;
-//import com.example.myboard_jwt.config.oauth.OAuthService;
-import com.example.myboard_jwt.config.oauth.KakaoUserInfoDto;
-import com.example.myboard_jwt.config.oauth.OAuthService;
+
 import com.example.myboard_jwt.dto.UserDto;
 import com.example.myboard_jwt.exception.ResultMsg;
 import com.example.myboard_jwt.jwt.JwtTokenUtils;
@@ -29,7 +25,6 @@ public class UserController {
 
 
     private final UserService userService;
-    private OAuthService oAuthService;
     private AuthenticationManager authenticationManager;
     private PrincipalDetailsService principalDetailsService;
     private JwtTokenUtils jwtTokenUtils;
@@ -52,17 +47,7 @@ public class UserController {
     public ResultMsg register(@RequestBody @Valid UserDto.Register registerDto) {
         userService.register(registerDto);
         //MessageSoruce refactoring
-
         return new ResultMsg("회원가입이 완료되었습니다");
-    }
-
-    @GetMapping("/login/oauth2/code/kakao")
-    public @ResponseBody String kakaoCode(String code) throws JsonProcessingException { //@responsebody = data를 리턴해주는 컨트롤러 함수
-        KakaoUserInfoDto kakaoUserInfoDto = oAuthService.kakaoLogin(code);
-
-
-
-        return "로그인 성공";
     }
 
 //    public void kakaoLogin(String code) throws JsonProcessingException {
